@@ -9,4 +9,4 @@ spring:
       # file://다음에 msaconfig.yml 파일 경로를 absolute path로 추가해 놓을 것
       server:
         git:
-          uri: file://
+          uri: file:///Users/bdh/pet-cast-config

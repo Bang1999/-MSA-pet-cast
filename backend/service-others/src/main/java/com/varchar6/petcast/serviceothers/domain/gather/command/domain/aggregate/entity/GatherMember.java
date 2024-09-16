@@ -15,6 +15,7 @@ import lombok.*;
 public class GatherMember {
 
     @Id
+    @Column(name = "group_member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

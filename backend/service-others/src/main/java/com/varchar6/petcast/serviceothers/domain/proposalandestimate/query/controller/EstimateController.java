@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@RestController
+@RestController("queryEstimatesController")
 @RequestMapping("/api/v1/estimates")
 public class EstimateController {
 

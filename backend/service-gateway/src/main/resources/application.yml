@@ -68,3 +68,6 @@ spring:
           filters:
             - RewritePath=/service-others/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+
+token:
+  secret: CdkKVDgED/8zH71UEu1kRNaeI9/rWJiGxiT+ht0u5QaVjOXKkx//t+hLqtTgwqEGWDuQaz07ze60vVX8LTnlKQ==

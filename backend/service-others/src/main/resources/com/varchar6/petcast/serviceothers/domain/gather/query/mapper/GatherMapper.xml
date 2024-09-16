@@ -70,7 +70,7 @@
                          WHERE B.group_id = #{ gather_id })
     </select>
 
-    <select id="selectMemberRoleById" resultType="object" parameterType="_int">
+    <select id="selectMemberRoleById" resultType="object" parameterType="map">
         SELECT
         <if test="selectValue == 'role'">
             A.group_role

@@ -13,5 +13,4 @@ public class ServiceOthersApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ServiceOthersApplication.class, args);
 	}
-
 }
