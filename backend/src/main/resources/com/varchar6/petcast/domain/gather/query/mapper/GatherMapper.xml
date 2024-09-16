@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.varchar6.petcast.domain.gather.query.mapper.GatherMapper">
+    <resultMap id="gatherResultMap" type="com.varchar6.petcast.domain.gather.query.dto.GatherDTO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="content" column="content"/>
+        <result property="count" column="count"/>
+        <result property="url" column="url"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="activeYn" column="active_yn"/>
+        <result property="invitationId" column="invitation_id"/>
+        <result property="invitationContent" column="invitation_content"/>
+    </resultMap>
+
+    <select id="selectGatherById" resultMap="gatherResultMap" parameterType="_int">
+        SELECT
+               A.name
+          FROM tbl_gather A
+         WHERE A.id IN (SELECT B.group_id
+                          FROM tbl_group_member B
+                         WHERE B.member_id = #{ user_id })
+         ORDER BY A.created_at DESC
+    </select>
+
+    <select id="selectGatherDetailById" resultMap="gatherResultMap" parameterType="_int">
+        SELECT
+               A.name
+             , A.content
+             , A.number
+             , A.url
+             , A.updated_at
+             , A.created_at
+             , A.active
+          FROM tbl_gather A
+         WHERE A.id = #{ gather_id }
+    </select>
+
+    <select id="selectMembersById" resultType="String" parameterType="_int">
+        SELECT
+               A.name
+          FROM tbl_member A
+         WHERE A.id IN (SELECT B.member_id
+                          FROM tbl_group_member B
+                         WHERE B.group_id = #{ gather_id })
+    </select>
+
+    <select id="selectGroupMembersIdById" resultType="_int" parameterType="map">
+        SELECT
+               A.member_id
+          FROM tbl_group_member A
+         WHERE A.group_id = (SELECT
+                                                  B.id
+                                             FROM tbl_invitation B
+                                            WHERE B.member_id = #{ user_id }
+                                              AND B.id = #{ invitation_id }
+                                              AND B.active = 1)
+    </select>
+
+    <select id="selectGroupMembersNameById" resultType="String" parameterType="_int">
+        SELECT
+               A.name
+          FROM tbl_member A
+         WHERE A.id IN (SELECT
+                               B.member_id
+                          FROM tbl_group_member B
+                         WHERE B.group_id = #{ gather_id })
+    </select>
+
+    <select id="selectMemberRoleById" resultType="object" parameterType="_int">
+        SELECT
+        <if test="selectValue == 'role'">
+            A.group_role
+        </if>
+        <if test="selectValue == 'id'">
+            A.group_member_id
+        </if>
+          FROM tbl_group_member A
+         WHERE A.group_id = #{ gather_id }
+           AND A.member_id = #{ member_id };
+    </select>
+</mapper>

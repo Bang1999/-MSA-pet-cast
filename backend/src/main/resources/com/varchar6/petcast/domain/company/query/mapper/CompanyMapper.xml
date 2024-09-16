@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.varchar6.petcast.domain.company.query.mapper.CompanyMapper">
+    <resultMap id="companyCategoryList" type="com.varchar6.petcast.domain.company.query.service.vo.CategoryVO">
+        <result property="name" column="categoryName"/>
+    </resultMap>
+    <resultMap id="companyInformation" type="com.varchar6.petcast.domain.company.query.service.vo.CompanyVO">
+        <result property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="employeeNumber" column="EMPLOYEE_NUMBER"/>
+        <result property="career" column="CAREER"/>
+        <result property="license" column="LICENSE"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="contactableTime" column="CONTACTABLE_TIME"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="updatedAt" column="UPDATED_AT"/>
+        <result property="active" column="ACTIVE"/>
+        <result property="approved" column="APPROVED"/>
+        <result property="memberId" column="MEMBER_ID"/>
+    </resultMap>
+
+    <select id="findCompanyInformationByCompanyId" resultMap="companyInformation" parameterType="_int">
+        SELECT
+               TC.ID
+             , TC.NAME
+             , TC.ADDRESS
+             , TC.EMPLOYEE_NUMBER
+             , TC.CAREER
+             , TC.LICENSE
+             , TC.INTRODUCTION
+             , TC.CONTACTABLE_TIME
+             , TC.CREATED_AT
+             , TC.UPDATED_AT
+             , TC.ACTIVE
+             , TC.APPROVED
+             , TC.MEMBER_ID
+          FROM TBL_COMPANY TC
+         WHERE TC.ID = #{companyId}
+    </select>
+    <select id="findCategoriesByCompanyId" resultMap="companyCategoryList" parameterType="string">
+        SELECT
+               CT.NAME AS categoryName
+          FROM TBL_COMPANY CP
+         INNER JOIN TBL_COMPANY_CATEGORY CC
+            ON (CP.ID = CC.COMPANY_ID)
+         INNER JOIN TBL_CATEGORY CT
+            ON (CC.CATEGORY_ID = CT.ID)
+         WHERE CP.ID = #{ memberId };
+    </select>
+    <select id="findAllCompanies" resultMap="companyInformation">
+        SELECT
+               TC.ID
+             , TC.NAME
+             , TC.ADDRESS
+             , TC.EMPLOYEE_NUMBER
+             , TC.CAREER
+             , TC.LICENSE
+             , TC.INTRODUCTION
+             , TC.CONTACTABLE_TIME
+             , TC.CREATED_AT
+             , TC.UPDATED_AT
+             , TC.ACTIVE
+             , TC.APPROVED
+             , TC.MEMBER_ID
+          FROM TBL_COMPANY TC
+         WHERE TC.ACTIVE = true
+         ORDER BY TC.CREATED_AT DESC
+    </select>
+</mapper>

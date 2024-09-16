@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.varchar6.petcast.domain.review.query.mapper.ReviewMapper">
+
+  <resultMap id="ReviewResultMap" type="com.varchar6.petcast.domain.review.query.dto.ReviewDTO">
+    <id property="id" column="ID"/>
+    <result property="title" column="TITLE"/>
+    <result property="comment" column="COMMENT"/>
+    <result property="score" column="SCORE"/>
+    <result property="eventId" column="EVENT_ID"/>
+  </resultMap>
+
+  <select id="selectReviewByCustomerId" resultMap="ReviewResultMap" parameterType="map">
+    SELECT
+           A.ID
+         , A.TITLE
+         , A.COMMENT
+         , A.SCORE
+         , A.EVENT_ID
+      FROM TBL_REVIEW A
+      JOIN TBL_EVENT B ON (A.EVENT_ID = B.ID)
+     WHERE B.MEMBER_ID = #{ customerId }
+       AND A.ID &lt; #{ lastReviewId }
+     ORDER BY A.ID DESC
+     LIMIT 10
+  </select>
+
+  <select id="selectReviewByCompanyId" resultMap="ReviewResultMap" parameterType="map">
+    SELECT
+           A.ID
+         , A.TITLE
+         , A.COMMENT
+         , A.SCORE
+         , A.EVENT_ID
+      FROM TBL_REVIEW A
+      JOIN TBL_EVENT B ON (A.EVENT_ID = B.ID)
+     WHERE B.COMPANY_ID = #{ companyId }
+       AND A.ID &lt; #{ lastReviewId }
+     ORDER BY A.ID DESC
+     LIMIT 10
+  </select>
+</mapper>

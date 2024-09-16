@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.varchar6.petcast.domain.proposalandestimate.query.mapper.EstimatesMapper">
+
+    <resultMap id="estimateProposalMap1" type="com.varchar6.petcast.domain.proposalandestimate.query.dto.EstimateProposalDTO1">
+        <id column="id" property="id"/>
+        <collection property="proposal" ofType="com.varchar6.petcast.domain.proposalandestimate.query.dto.ProposalDTO">
+            <result column="id" property="id"/>
+            <result column="content" property="content"/>
+            <result column="status" property="status"/>
+            <result column="member_id" property="memberId"/>
+        </collection>
+    </resultMap>
+    <!--    &lt;!&ndash; 고객 견적서 목록 조회 &ndash;&gt;-->
+    <select id="findAllEstimatesByMemberId" parameterType="_int" resultMap="estimateProposalMap1">
+        SELECT A.id
+             , B.id
+             , B.content
+             , B.status
+             , B.member_id
+          FROM tbl_estimate A
+          JOIN tbl_proposal B ON A.proposal_id = B.id
+         WHERE B.member_id = #{memberId}
+         ORDER BY A.created_at DESC
+    </select>
+
+    <resultMap id="estimateMap" type="com.varchar6.petcast.domain.proposalandestimate.query.dto.EstimateDTO">
+        <id column="id" property="id"/>
+        <result column="expected_cost" property="expectedCost"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="active" property="active"/>
+        <result column="proposal_id" property="companyId"/>
+        <result column="company_id" property="proposalId"/>
+    </resultMap>
+    <!--    &lt;!&ndash; 업체 견적서 목록 조회 &ndash;&gt;-->
+        <select id="findAllEstimatesByCompanyId" parameterType="_int" resultMap="estimateMap">
+            SELECT
+                   A.id
+                 , A.expected_cost
+                 , A.status
+                 , A.created_at
+                 , A.updated_at
+                 , A.active
+                 , A.proposal_id
+                 , A.company_id
+              FROM tbl_estimate A
+             WHERE A.company_id = #{companyId}
+             ORDER BY A.created_at DESC
+        </select>
+
+
+    <resultMap id="estimateProposalMap2" type="com.varchar6.petcast.domain.proposalandestimate.query.dto.EstimateProposalDTO2">
+        <id column="id" property="id"/>
+        <result column="expected_cost" property="expectedCost"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="active" property="active"/>
+        <result column="company_id" property="companyId"/>
+        <collection property="proposal" ofType="com.varchar6.petcast.domain.proposalandestimate.query.dto.ProposalDTO">
+            <result column="id" property="id"/>
+            <result column="hope_location" property="hopeLocation"/>
+            <result column="hope_time" property="hopeTime"/>
+            <result column="content" property="content"/>
+        </collection>
+    </resultMap>
+
+    <!--    &lt;!&ndash; 고객 특정 견적서 조회 &ndash;&gt;-->
+        <select id="findEstimateById" parameterType="_int" resultMap="estimateProposalMap2">
+            SELECT
+                   A.id
+                 , A.expected_cost
+                 , A.status
+                 , A.created_at
+                 , A.updated_at
+                 , A.active
+                 , A.company_id
+                 , B.id
+                 , B.hope_location
+                 , B.hope_time
+                 , B.content
+              FROM tbl_estimate A
+              JOIN tbl_proposal B ON A.proposal_id = B.id
+             WHERE A.id = #{estimateId}
+        </select>
+
+</mapper>

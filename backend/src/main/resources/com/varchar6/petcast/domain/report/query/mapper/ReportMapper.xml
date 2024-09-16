@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.varchar6.petcast.domain.report.query.mapper.ReportMapper">
+    <resultMap id="reportResultMap" type="com.varchar6.petcast.domain.report.query.dto.ReportDTO">
+        <id property="id" column="ID"/>
+        <result property="reason" column="REASON"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="reporterId" column="REPORTER_ID"/>
+        <result property="respondentId" column="RESPONDENT_ID"/>
+    </resultMap>
+    <select id = "selectAllReports" resultMap="reportResultMap">
+        SELECT
+               R.ID
+             , R.REASON
+             , R.CREATED_AT
+             , R.REPORTER_ID
+             , R.RESPONDENT_ID
+          FROM TBL_REPORT R
+         ORDER BY CREATED_AT DESC
+    </select>
+    <select id = "selectReportByReporterId" resultMap="reportResultMap" parameterType="_int">
+        SELECT
+               R.ID
+             , R.REASON
+             , R.CREATED_AT
+             , R.REPORTER_ID
+             , R.RESPONDENT_ID
+          FROM TBL_REPORT R
+         WHERE REPORTER_ID = #{ reporterId }
+        ORDER BY CREATED_AT DESC
+    </select>
+    <select id = "selectReportByRespondentId" resultMap="reportResultMap" parameterType="_int">
+        SELECT
+               R.ID
+             , R.REASON
+             , R.CREATED_AT
+             , R.REPORTER_ID
+             , R.RESPONDENT_ID
+          FROM TBL_REPORT R
+         WHERE RESPONDENT_ID = #{ respondentId }
+         ORDER BY CREATED_AT DESC
+    </select>
+</mapper>
