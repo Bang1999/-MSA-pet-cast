@@ -51,6 +51,9 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 	implementation 'org.modelmapper:modelmapper:3.2.0'
+
+	// https://mvnrepository.com/artifact/net.nurigo/sdk
+	implementation group: 'net.nurigo', name: 'sdk', version: '4.3.0'
 }
 
 dependencyManagement {

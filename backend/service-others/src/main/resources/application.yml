@@ -25,6 +25,17 @@ spring:
     import:
       - classpath:/bootstrap.yml
 
+  sms:
+    api-key: NCS5PVNCUAEJ68F2
+    api-secret: A0F5DAVNVQIIDWXM7PSJ7MUSEJNQPJUK
+    provider: https://api.coolsms.co.kr
+    sender: "01046022234"
+
+#  api-key: ${SMS_API_KEY}
+#  api-secret: ${SMS_API_SECRET}
+#  provider: https://api.coolsms.co.kr
+#  sender: ${SMS_SENDER}
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
