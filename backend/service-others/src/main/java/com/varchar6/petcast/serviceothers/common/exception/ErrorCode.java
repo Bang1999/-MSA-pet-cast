@@ -17,7 +17,7 @@ public enum ErrorCode {
     NOT_LEADER(40002, HttpStatus.BAD_REQUEST, "리더가 아닙니다."),
     INVALID_PARAMETER_FORMAT(40003, HttpStatus.BAD_REQUEST, "요청에 유효하지 않은 인자 형식입니다."),
     MISSING_REQUEST_PARAMETER(40004, HttpStatus.BAD_REQUEST, "필수 요청 파라미터가 누락되었습니다."),
-
+    INVITATION_SEND_FAILURE(40005, HttpStatus.BAD_REQUEST, "초대장 전송에 실패하였습니다."),
     /*
      * 401(Unauthorized)
      *   비록 HTTP 표준에서는 "미승인(unauthorized)"를 명확히 하고 있지만,

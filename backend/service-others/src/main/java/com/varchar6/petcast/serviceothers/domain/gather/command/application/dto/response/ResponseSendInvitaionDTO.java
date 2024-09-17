@@ -9,6 +9,9 @@ import lombok.*;
 @Builder
 @ToString
 public class ResponseSendInvitaionDTO {
-    private int userId;
-    private int gatherId;
+    private String messageId;
+    private String country;
+    private String from;
+    private String to;
+    private String statusCode;
 }

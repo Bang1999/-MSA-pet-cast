@@ -1,5 +1,7 @@
 package com.varchar6.petcast.serviceothers.domain.sms.service;
 
+import com.varchar6.petcast.serviceothers.common.exception.CommonException;
+import com.varchar6.petcast.serviceothers.common.exception.ErrorCode;
 import com.varchar6.petcast.serviceothers.domain.sms.dto.request.RequestSendSms;
 import com.varchar6.petcast.serviceothers.domain.sms.dto.response.ResponseSendSms;
 import jakarta.annotation.PostConstruct;
@@ -63,8 +65,7 @@ public class SmsServiceImpl implements SmsService {
         SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
 
         if(response == null){
-            log.error("전송 실패!");
-            throw new RuntimeException("전송 실패!");
+            throw new CommonException(ErrorCode.INVITATION_SEND_FAILURE);
         }
 
         return ResponseSendSms.builder()
