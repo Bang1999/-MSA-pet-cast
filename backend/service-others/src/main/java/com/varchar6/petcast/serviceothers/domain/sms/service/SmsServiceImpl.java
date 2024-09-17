@@ -13,6 +13,7 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service(value = "smsServiceImpl")
@@ -43,7 +44,13 @@ public class SmsServiceImpl implements SmsService {
         );
     }
 
+    /**설명.
+     *  초대장 SMS를 활용한 전송
+     *  Request: 회원 id, 모임 id, 연락처, 제목, 내용
+     *  Response: 메세지 id, country, from, to, statusCode
+     **/
     @Override
+    @Transactional
     public ResponseSendSms sendInvitation(RequestSendSms requestSendSms) {
 
         Message message = new Message(); // 생성자를 통해 API 키와 API 시크릿 전달
