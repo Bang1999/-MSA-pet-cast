@@ -1,4 +1,4 @@
-package com.varchar6.petcast.serviceothers.domain.gather.command.application.dto.response;
+package com.varchar6.petcast.serviceothers.domain.sms.dto.response;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Builder
 @ToString
-public class ResponseSendInvitaionDTO {
+public class ResponseSendSms {
     private String messageId;
     private String country;
     private String from;

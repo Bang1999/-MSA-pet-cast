@@ -12,6 +12,8 @@ import com.varchar6.petcast.serviceothers.domain.gather.command.domain.aggregate
 import com.varchar6.petcast.serviceothers.domain.gather.command.domain.repository.GatherMemberRepository;
 import com.varchar6.petcast.serviceothers.domain.gather.command.domain.repository.GatherRepository;
 import com.varchar6.petcast.serviceothers.domain.gather.command.domain.repository.InvitationRepository;
+import com.varchar6.petcast.serviceothers.domain.sms.dto.request.RequestSendSms;
+import com.varchar6.petcast.serviceothers.domain.sms.dto.response.ResponseSendSms;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +35,21 @@ public class GatherServiceImpl implements GatherService {
     private final InvitationRepository invitationRepository;
     private final ModelMapper modelMapper;
     private final com.varchar6.petcast.serviceothers.domain.gather.query.service.GatherService gatherService;
+    private final com.varchar6.petcast.serviceothers.domain.sms.service.SmsService smsService;
 
     @Autowired
     public GatherServiceImpl(GatherRepository gatherRepository,
                              GatherMemberRepository gatherMemberRepository,
                              InvitationRepository invitationRepository,
                              ModelMapper modelMapper,
-                             com.varchar6.petcast.serviceothers.domain.gather.query.service.GatherService gatherService) {
+                             com.varchar6.petcast.serviceothers.domain.gather.query.service.GatherService gatherService,
+                             com.varchar6.petcast.serviceothers.domain.sms.service.SmsService smsService) {
         this.gatherRepository = gatherRepository;
         this.gatherMemberRepository = gatherMemberRepository;
         this.invitationRepository = invitationRepository;
         this.modelMapper = modelMapper;
         this.gatherService = gatherService;
+        this.smsService = smsService;
     }
 
     /**설명.
@@ -214,13 +219,23 @@ public class GatherServiceImpl implements GatherService {
                 .build();
         invitationRepository.save(invitation);
 
-        /*
-        * 초대장 전송~~~~~~?
-        * */
-
-        return ResponseSendInvitaionDTO.builder()
+        RequestSendSms requestSendSms = RequestSendSms.builder()
                 .userId(requestInvitationDTO.getUserId())
                 .gatherId(requestInvitationDTO.getGatherId())
+                .number(requestInvitationDTO.getNumber())
+                .title(requestInvitationDTO.getTitle())
+                .description(requestInvitationDTO.getDescription())
+                .build();
+
+        // 초대장 전송
+        ResponseSendSms responseSendSms = smsService.sendInvitation(requestSendSms);
+
+        return ResponseSendInvitaionDTO.builder()
+                .messageId(responseSendSms.getMessageId())
+                .country(responseSendSms.getCountry())
+                .from(responseSendSms.getFrom())
+                .to(responseSendSms.getTo())
+                .statusCode(responseSendSms.getStatusCode())
                 .build();
     }
 

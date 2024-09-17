@@ -1,4 +1,4 @@
-package com.varchar6.petcast.serviceothers.domain.gather.command.application.dto.request;
+package com.varchar6.petcast.serviceothers.domain.sms.dto.request;
 
 import lombok.*;
 
@@ -8,10 +8,9 @@ import lombok.*;
 @Getter
 @Builder
 @ToString
-public class RequestSendInvitationDTO {
+public class RequestSendSms {
     private int userId;
     private int gatherId;
-    private int invitationId;
     private String number;
     private String title;
     private String description;
